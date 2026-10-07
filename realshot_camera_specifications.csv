@@ -1,0 +1,29 @@
+Category,Item,Specification,Description
+Application,Name,RealShot AI Camera,Professional Android camera with AI enhancement
+Application,Tagline,Capture real. Enhance naturally.,Core application philosophy
+AI Integration,Provider,OpenAI API,Endpoint: https://api.openai.com/v1/images/edits
+AI Integration,Default Model,dall-e-2,Configurable via OPENAI_IMAGE_MODEL
+AI Integration,API Key,OPENAI_API_KEY,Configured via AI Studio Secrets / BuildConfig
+Preservation Rules,People & Objects,Strict Preservation,Never add, remove, or replace people or objects
+Preservation Rules,Facial Structure,Strict Preservation,Never alter face geometry, proportions, eyes, nose, or lips
+Preservation Rules,Skin,Natural Texture,Preserves 100% natural pores, skin tone, and realistic micro-imperfections
+Preservation Rules,Background,Preserved,Original environment and architecture remain intact
+Camera UI,Preview,Full-Screen Edge-to-Edge,Correct aspect ratio, zero distortion, tap-to-focus
+Camera UI,Modes,"PHOTO, PORTRAIT, NIGHT",Selectable above shutter button
+Camera UI,Zoom,"0.5x, 1x, 2x",Linear zoom ratios with CameraX integration
+Camera UI,Top Bar,"Flash (Off/Auto/On), RealShot Branding, Settings",Minimalist dark interface
+Camera UI,Shutter,Large Circular Button,Tactile click animation with DSLR look
+Workflow,Capture,High-Quality CameraX,Highest available device resolution
+Workflow,Backup,Original File Stored,Saved temporarily and optionally backed up to Gallery
+Workflow,Processing,Smooth Animated Overlay,"Displays 'Enhancing your photo' then 'Preserving natural detail'"
+Workflow,Comparison,Interactive Split Slider,Draggable before/after comparison using real original & enhanced files
+Workflow,Gallery,Automatic MediaStore Save,Album: RealShot AI (RealShot_YYYYMMDD_HHMMSS.jpg)
+Error Handling,Network Offline,Internet Required Notice,"Keeps original photograph, provides Retry and Use Original"
+Error Handling,API Failure,Enhancement Failed Notice,Guarantees captured photo is never lost or deleted
+On-Device Fallback,Engine,RealShot DSLR RAW Engine,High-precision local computational photography pipeline
+Settings,AI Enhancement,Toggle ON/OFF,Allows switching between OpenAI and on-device processing
+Settings,Auto Save,Toggle ON/OFF,Enables automatic export to device Gallery
+Settings,Save Original,Toggle ON/OFF,Enables optional backup of unedited original photograph
+Settings,Enhancement Strength,"Natural, Balanced, Professional",Tone curve and micro-contrast intensity
+Settings,Image Quality,"High (1080p), Maximum (Full-Res)",Resolution selector
+Settings,Camera Lens,"Rear, Front",Hardware lens selector

@@ -1,0 +1,6 @@
+{
+  "name": "RealShot AI Camera",
+  "description": "Capture real. Enhance naturally. Professional camera application with OpenAI image enhancement and strict preservation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

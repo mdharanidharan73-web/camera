@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">RealShot AI Camera</string>
+    <string name="app_tagline">Capture real. Enhance naturally.</string>
+    <string name="camera_permission_required">Camera access is required to capture photographs</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="enhancing_photo">Enhancing your photo…</string>
+    <string name="preserving_detail">Preserving natural detail…</string>
+    <string name="enhancement_failed">Enhancement failed</string>
+    <string name="internet_required">Internet connection required for AI enhancement.</string>
+    <string name="save">Save</string>
+    <string name="share">Share</string>
+    <string name="retake">Retake</string>
+    <string name="compare_original">ORIGINAL ↔ ENHANCED</string>
+    <string name="use_original">Use Original</string>
+    <string name="retry">Retry</string>
+    <string name="photo_saved">Saved to device gallery</string>
+</resources>
