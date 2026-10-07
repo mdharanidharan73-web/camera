@@ -8,14 +8,16 @@ on:
 
 jobs:
   build:
-    name: Build & Package APK
+    name: Build and Package APK
     runs-on: ubuntu-24.04
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Set up JDK 17
+      - name: Set up Java
         uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -25,24 +27,54 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Grant Gradle permission
-        run: chmod +x gradlew
+      - name: Inspect project
+        run: |
+          echo "Working directory:"
+          pwd
+          echo "Project files:"
+          ls -la
+          echo "Gradle wrapper:"
+          ls -la gradlew || true
+          echo "Gradle directory:"
+          ls -la gradle || true
+
+      - name: Validate Gradle wrapper
+        run: |
+          test -f ./gradlew
+          chmod +x ./gradlew
+
+      - name: Prepare build environment
+        run: |
+          if [ ! -f .env ] && [ -f .env.example ]; then
+            cp .env.example .env
+          fi
+          if [ ! -f debug.keystore ]; then
+            keytool -genkeypair -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          fi
+          yes | sdkmanager --licenses || true
+
+      - name: Show Gradle version
+        run: ./gradlew --version
 
       - name: Clean
-        run: ./gradlew clean
+        run: ./gradlew clean --stacktrace
 
-      - name: Build APK
-        run: ./gradlew assembleDebug --stacktrace
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --stacktrace --info
+
+      - name: Find generated APK
+        run: |
+          echo "Searching for APK..."
+          find . -type f -name "*.apk" -print
 
       - name: Verify APK
         run: |
-          ls -lh app/build/outputs/apk/debug/
           test -f app/build/outputs/apk/debug/app-debug.apk
 
       - name: Rename APK
         run: |
           cp app/build/outputs/apk/debug/app-debug.apk \
-          app/build/outputs/apk/debug/RealShot-AI-Camera.apk
+             app/build/outputs/apk/debug/RealShot-AI-Camera.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
