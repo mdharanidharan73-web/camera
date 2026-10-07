@@ -22,7 +22,7 @@ object BackendApiClient {
         .writeTimeout(90, TimeUnit.SECONDS)
         .build()
 
-    const val DEFAULT_BACKEND_URL = "http://10.0.2.2:3000"
+    const val DEFAULT_BACKEND_URL = "https://realshot-ai-backend.onrender.com"
 
     suspend fun enhanceViaBackend(
         source: Bitmap,

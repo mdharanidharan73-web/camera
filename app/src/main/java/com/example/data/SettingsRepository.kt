@@ -60,7 +60,7 @@ class SettingsRepository(context: Context) {
         set(value) = prefs.edit().putString(KEY_CUSTOM_OPENAI_KEY, value.trim()).apply()
 
     var backendUrl: String
-        get() = prefs.getString(KEY_BACKEND_URL, "http://10.0.2.2:3000") ?: "http://10.0.2.2:3000"
+        get() = prefs.getString(KEY_BACKEND_URL, "https://realshot-ai-backend.onrender.com") ?: "https://realshot-ai-backend.onrender.com"
         set(value) = prefs.edit().putString(KEY_BACKEND_URL, value.trim()).apply()
 
     fun getEffectiveOpenAiKey(): String {
