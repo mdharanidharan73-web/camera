@@ -30,13 +30,25 @@ jobs:
       - name: Install required Android SDK packages
         run: |
           yes | sdkmanager --licenses >/dev/null || true
-          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          sdkmanager \
+            "platform-tools" \
+            "platforms;android-36.1" \
+            "build-tools;36.0.0"
+
+      - name: Verify Android SDK packages
+        run: |
+          test -d "$ANDROID_SDK_ROOT/platforms/android-36.1"
+          test -d "$ANDROID_SDK_ROOT/build-tools/36.0.0"
+          echo "Android SDK ready:"
+          sdkmanager --list_installed | grep -E 'platform-tools|platforms;android-36\.1|build-tools;36\.0\.0' || true
 
       - name: Inspect project
         run: |
           pwd
           ls -la
           test -f gradlew
+          test -f gradle/wrapper/gradle-wrapper.jar
+          test -f gradle/wrapper/gradle-wrapper.properties
 
       - name: Verify Gradle wrapper
         run: |
