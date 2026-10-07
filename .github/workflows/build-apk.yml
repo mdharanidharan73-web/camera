@@ -10,11 +10,9 @@ jobs:
   build:
     name: Build and Package APK
     runs-on: ubuntu-24.04
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v5
 
       - name: Set up Java
@@ -29,42 +27,24 @@ jobs:
 
       - name: Inspect project
         run: |
-          echo "Working directory:"
           pwd
-          echo "Project files:"
           ls -la
-          echo "Gradle wrapper:"
-          ls -la gradlew || true
-          echo "Gradle directory:"
-          ls -la gradle || true
+          find . -maxdepth 3 -type f | sort | head -300
 
-      - name: Validate Gradle wrapper
+      - name: Verify Gradle wrapper
         run: |
-          test -f ./gradlew
-          chmod +x ./gradlew
-
-      - name: Prepare build environment
-        run: |
-          if [ ! -f .env ] && [ -f .env.example ]; then
-            cp .env.example .env
-          fi
-          if [ ! -f debug.keystore ]; then
-            keytool -genkeypair -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
-          fi
-          yes | sdkmanager --licenses || true
-
-      - name: Show Gradle version
-        run: ./gradlew --version
+          test -f gradlew
+          chmod +x gradlew
+          ./gradlew --version
 
       - name: Clean
         run: ./gradlew clean --stacktrace
 
-      - name: Build Debug APK
+      - name: Build APK
         run: ./gradlew assembleDebug --stacktrace --info
 
-      - name: Find generated APK
+      - name: Locate APK
         run: |
-          echo "Searching for APK..."
           find . -type f -name "*.apk" -print
 
       - name: Verify APK
