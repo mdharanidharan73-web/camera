@@ -81,6 +81,7 @@ fun SettingsDialog(
     var strength by remember { mutableStateOf(settingsRepository.enhancementStrength) }
     var quality by remember { mutableStateOf(settingsRepository.imageQuality) }
     var openAiModel by remember { mutableStateOf(settingsRepository.openAiModel) }
+    var backendUrlInput by remember { mutableStateOf(settingsRepository.backendUrl) }
     var customKey by remember { mutableStateOf(settingsRepository.customOpenAiKey) }
     var showKey by remember { mutableStateOf(false) }
 
@@ -442,6 +443,36 @@ fun SettingsDialog(
                                 modifier = Modifier.align(Alignment.End)
                             ) {
                                 Text("Save Key", color = CameraBlack, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(14.dp))
+
+                        // Backend Service URL Field
+                        OutlinedTextField(
+                            value = backendUrlInput,
+                            onValueChange = { backendUrlInput = it },
+                            label = { Text("Secure Backend URL", fontSize = 11.sp) },
+                            singleLine = true,
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = CameraGold,
+                                unfocusedBorderColor = CameraWhite.copy(alpha = 0.2f),
+                                focusedTextColor = CameraWhite,
+                                unfocusedTextColor = CameraWhite,
+                                focusedLabelColor = CameraGold,
+                                unfocusedLabelColor = CameraTextSecondary
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        if (backendUrlInput != settingsRepository.backendUrl) {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Button(
+                                onClick = { settingsRepository.backendUrl = backendUrlInput },
+                                colors = ButtonDefaults.buttonColors(containerColor = CameraGold),
+                                modifier = Modifier.align(Alignment.End)
+                            ) {
+                                Text("Save URL", color = CameraBlack, fontWeight = FontWeight.Bold, fontSize = 12.sp)
                             }
                         }
                     }

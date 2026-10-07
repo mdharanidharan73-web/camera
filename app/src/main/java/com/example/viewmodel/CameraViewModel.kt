@@ -224,25 +224,36 @@ class CameraViewModel(application: Application) : AndroidViewModel(application) 
             return
         }
 
-        val apiKey = settingsRepository.getEffectiveOpenAiKey()
-        if (apiKey.isBlank()) {
-            // If API key is not configured, apply high-quality On-Device DSLR RAW Engine as seamless fallback
-            applyLocalDslrEnhancement(original, origPath, isFallback = true)
-            return
-        }
-
         try {
-            val model = settingsRepository.openAiModel
-            val enhanced = OpenAiEnhancer.enhanceWithOpenAi(
-                source = original,
-                apiKey = apiKey,
-                model = model
-            )
+            // Priority 1: Communicate with secure backend (keeps OpenAI API key on backend)
+            val backendUrl = settingsRepository.backendUrl
+            val apiKey = settingsRepository.getEffectiveOpenAiKey()
+
+            val enhancedBitmap = try {
+                com.example.ai.BackendApiClient.enhanceViaBackend(
+                    source = original,
+                    backendUrl = backendUrl
+                )
+            } catch (backendError: Exception) {
+                // If backend is not running or direct key is configured, fallback to direct OpenAiEnhancer
+                if (apiKey.isNotBlank()) {
+                    val model = settingsRepository.openAiModel
+                    OpenAiEnhancer.enhanceWithOpenAi(
+                        source = original,
+                        apiKey = apiKey,
+                        model = model
+                    )
+                } else {
+                    // Seamless on-device DSLR RAW fallback
+                    applyLocalDslrEnhancement(original, origPath, isFallback = true)
+                    return
+                }
+            }
 
             finishEnhancementSuccess(
                 original = original,
                 origPath = origPath,
-                enhanced = enhanced,
+                enhanced = enhancedBitmap,
                 engine = EnhancementEngine.OPENAI
             )
         } catch (e: Exception) {

@@ -59,6 +59,10 @@ class SettingsRepository(context: Context) {
         get() = prefs.getString(KEY_CUSTOM_OPENAI_KEY, "") ?: ""
         set(value) = prefs.edit().putString(KEY_CUSTOM_OPENAI_KEY, value.trim()).apply()
 
+    var backendUrl: String
+        get() = prefs.getString(KEY_BACKEND_URL, "http://10.0.2.2:3000") ?: "http://10.0.2.2:3000"
+        set(value) = prefs.edit().putString(KEY_BACKEND_URL, value.trim()).apply()
+
     fun getEffectiveOpenAiKey(): String {
         val custom = customOpenAiKey
         if (custom.isNotBlank()) return custom
@@ -93,5 +97,6 @@ class SettingsRepository(context: Context) {
         private const val KEY_QUALITY = "image_quality"
         private const val KEY_OPENAI_MODEL = "openai_model"
         private const val KEY_CUSTOM_OPENAI_KEY = "custom_openai_key"
+        private const val KEY_BACKEND_URL = "backend_url"
     }
 }
