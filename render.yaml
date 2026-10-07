@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: realshot-ai-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: OPENAI_IMAGE_MODEL
+        value: gpt-image-2
+      - key: OPENAI_API_KEY
+        sync: false
+    healthCheckPath: /health
